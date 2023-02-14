@@ -24,8 +24,8 @@ void create()
 	printf("Enter roll: ");
     scanf("%d", &roll);
     printf("Enter marks of 5 subjects ");
-    scanf("%f%f%f%f%f", &a, &b, &e, &d, &e);
-    per = ((a + b + c + d + e) / 500) * 100;
+    scanf("%f%f%f%f%f", &a, &b, &c, &d, &e);
+    per = (a + b + c + d + e)/5 ;
     struct node *newNode = (struct node *)malloc(sizeof(struct node));
 
     strcpy(newNode->name, name);
@@ -59,7 +59,7 @@ void display()
         printf("Name\t\tRoll No.\tPercentage\n");
         while (ptr != NULL)
         {
-            printf("%s\t%d\t\t%.2f%%\n", ptr->name, ptr->roll, ptr->per);
+            printf("%-20s%-10d%-10.2f%%\n", ptr->name, ptr->roll, ptr->per);
             ptr = ptr->next;
         }
         printf("\n");
@@ -67,34 +67,29 @@ void display()
 }
 
     
-    void del_pos(){
-    	   int pos;
-    struct node *ptr;
-    int i;
-    printf("enter position:");
-    scanf("%d", &pos);
+void del_pos() {
+    struct node *ptr = head;
+    int i,pos;
+    printf("enter the position");
+    scanf("%d",&pos);
     if (head == NULL) {
-        printf("List is empty!\n");
+        printf("List is empty.\n");
         return;
     }
-
     if (pos == 1) {
-        ptr=head;
-		head = ptr->next;
+        head = head->next;
         if (head != NULL) {
             head->prev = NULL;
         }
         free(ptr);
-        printf("Node at position %d deleted successfully!\n", pos);
+        printf("Student deleted successfully.\n");
         return;
     }
-    
-    for (i = 1; i < pos; i++) {
-        ptr=head;
-		ptr = ptr->next;
+    for (i = 1; i < pos && ptr != NULL; i++) {
+        ptr = ptr->next;
     }
     if (ptr == NULL) {
-        printf("Position %d out of range!\n", pos);
+        printf("Position not found.\n");
         return;
     }
     ptr->prev->next = ptr->next;
@@ -102,7 +97,7 @@ void display()
         ptr->next->prev = ptr->prev;
     }
     free(ptr);
-    printf("Node at position %d deleted successfully!\n", pos);
+    printf("Student deleted successfully.\n");
 }
 
 
