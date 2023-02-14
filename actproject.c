@@ -99,6 +99,18 @@ void del_pos() {
     free(ptr);
     printf("Student deleted successfully.\n");
 }
+int count()
+{
+	struct node *ptr;
+	ptr=head;
+	int count=0;
+	while(ptr!=NULL)
+	{
+		count++;
+		ptr=ptr->next;
+	}
+	return count;
+}
 
 
 
@@ -109,7 +121,8 @@ int main() {
         printf("1. Add a student to the list\n");
         printf("2. Display the list of students\n");
         printf("3. Delete a student from the list\n");
-        printf("4. Exit the program\n");
+        printf("4. Print the total no of the students:\n");
+        printf("5. Exit the program\n");
         scanf("%d", &choice);
         switch (choice) {
             case 1:
@@ -122,7 +135,10 @@ int main() {
               
                 del_pos();
                 break;
-            case 4:
+           case 4:
+            	printf("The total number of the students is %d\n",count(head));
+            	break;
+            case 5:
                 exit(0);
             default:
                 printf("Invalid choice! Please try again.\n");
