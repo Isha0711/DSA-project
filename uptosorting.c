@@ -19,9 +19,9 @@ void create()
     float a, b, c, d, e;
     float per;
 
+    fflush(stdin);
     printf("Enter name: ");
-    fgets(name, 20, stdin);
-    name[strcspn(name, "\n")] = 0; // remove newline character
+    gets(name);
 
     printf("Enter marks of 5 subjects ");
     scanf("%f%f%f%f%f", &a, &b, &c, &d, &e);
@@ -43,67 +43,13 @@ void create()
         head->prev = newNode;
         head = newNode;
     }
+    //sorting_alpha();
+    
 }
 
-void sorting_alpha()
-{
-    struct node *current, *prev, *temp;
-    int i = 1;
 
-    if (head == NULL)
-    {
-        return;
-    }
 
-    for (current = head->next; current != NULL; current = current->next)
-    {
-        temp = current;
-        prev = current->prev;
 
-        while (prev != NULL && strcmp(prev->name, current->name) > 0)
-        {
-            if (temp->next == prev)
-            {
-                temp->prev = prev->prev;
-                if (prev->prev != NULL)
-                {
-                    prev->prev->next = temp;
-                }
-                prev->next = temp->next;
-                if (temp->next != NULL)
-                {
-                    temp->next->prev = prev;
-                }
-                temp->next = prev;
-                prev->prev = temp;
-            }
-            else
-            {
-                temp->prev = prev->prev;
-                if (prev->prev != NULL)
-                {
-                    prev->prev->next = temp;
-                }
-                prev->next->prev = temp;
-                temp->next = prev->next;
-                temp->prev = prev->prev;
-                prev->prev = temp;
-                prev->next = current->next;
-                current->next->prev = prev;
-                prev->next = temp;
-                temp->next->prev = prev;
-            }
-
-            prev = temp->prev;
-        }
-    }
-
-    // Update the roll numbers
-    for (current = head; current != NULL; current = current->next)
-    {
-        current->roll = i++;
-    }
-}
 void display()
 {
     struct node *ptr;
@@ -124,6 +70,32 @@ void display()
         }
         printf("\n");
     }
+}
+void sorting_alpha() {
+    if (head == NULL) {
+        printf("\nNo data to sort!\n");
+        return;
+    }
+    struct node *i, *j;
+    char tempName[50];
+    int tempRoll;
+    float tempPercentage;
+    for (i = head; i->next != NULL; i = i->next) {
+        for (j = i->next; j != NULL; j = j->next) {
+            if (strcmp(i->name, j->name) > 0) {
+                strcpy(tempName, i->name);
+                tempRoll = i->roll;
+                tempPercentage = i->per;
+                strcpy(i->name, j->name);
+                i->roll = j->roll;
+                i->per = j->per;
+                strcpy(j->name, tempName);
+                j->roll = tempRoll;
+                j->per = tempPercentage;
+            }
+        }
+    }
+    printf("\nData sorted successfully!\n");
 }
 
 void del_pos()
@@ -178,17 +150,59 @@ int count()
     return count;
 }
 
+/*void writedata(){
+	struct node *ptr;
+	ptr=head;
+	FILE *fp=fopen("student.doc","w");
+	while(ptr!=NULL){
+		fwrite(ptr,sizeof(struct node),1,fp);
+		ptr=ptr->next;
+	}
+	fclose(fp);
+	printf("Data is written to the file successfully.\n");
+}
+void readdata(struct node *h){
+	struct node *newNode = (struct node *)malloc(sizeof(struct node)); 
+	struct node s1;
+	FILE *fp=fopen("student.doc","r");
+	
+	strcpy(newNode->name, s1.name);
+    newNode->per = s1.per;
+    newNode->next = newNode->prev = NULL;
+
+	while(fread(&s1,sizeof(struct node),1,fp));{
+	if (h == NULL)
+    {
+        h = newNode;
+        head=h;
+        return;
+    }
+    else
+    {
+        newNode->next = head;
+        h->prev = newNode;
+        h = newNode;
+        head=h;
+    }
+	
+	}
+	fclose(fp);
+}
+*/
 int main()
 {
     int choice;
     while (1)
     {
+        system("cls");
         printf("\nChoose an option:\n");
         printf("1. Add a student to the list\n");
         printf("2. Display the list of students\n");
         printf("3. Delete a student from the list\n");
         printf("4. Print the total no of the students:\n");
-        printf("5. Exit the program\n");
+        printf("5. Write to file:\n");
+        printf("6. Read from file and write to linked list\n");
+        printf("7. Exit the program\n");
         scanf("%d", &choice);
         switch (choice)
         {
@@ -197,16 +211,25 @@ int main()
             sorting_alpha();
             break;
         case 2:
-            display();
+            
+			display();
+            getch();
             break;
         case 3:
-
-            del_pos();
+           del_pos();
+           getch();
             break;
         case 4:
             printf("The total number of the students is %d\n", count());
             break;
-        case 5:
+        /*case 5:
+        	writedata();
+        	getch();
+        	break;
+        case 6:
+			readdata(head);
+			break;*/
+		case 7:
             exit(0);
         default:
             printf("Invalid choice! Please try again.\n");
