@@ -193,7 +193,7 @@ int main()
         printf("1. Add a student to the list\n");
         printf("2. Display the list of students\n");
         printf("3. Delete a student from the list\n");
-        printf("4. Print the total no of the students\n");
+        printf("4. Print the overview of the students\n");
         printf("5. Exit the program\n");
         scanf("%d", &choice);
         switch (choice)
@@ -214,7 +214,7 @@ int main()
               
             break;
         case 4:
-            printf("The total number of the students is %d\n", count());
+                overview();
             break;
       
         case 5:
