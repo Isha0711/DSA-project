@@ -148,17 +148,40 @@ void del_pos(void)
     printf("Student deleted successfully.\n");
     
 }
-int count(void)
+
+void overview()
 {
     struct node *ptr;
     ptr = head;
-    int count = 0;
+    int i, count = 0;
+    float avg = 0, pass_rate = 0, total = 0, per,pass_num=0;
     while (ptr != NULL)
     {
         count++;
         ptr = ptr->next;
     }
-    return count;
+    ptr = head;
+    for (i = 0; i < count; i++)
+    {
+        if ((ptr->per) >= 40)
+        {
+            pass_num++;
+        }
+        ptr=ptr->next;
+    }
+    printf("the pass num is %f",pass_num);
+    ptr = head;
+    for (i=0;i<count;i++)
+    {
+        total = total + ptr->per;
+        ptr = ptr->next;
+    }
+    avg = total / count;
+    pass_rate = (pass_num / count) * 100;
+    printf("\n======CLASS OVERVIEW======\n");
+    printf("Total number of students=%d\n", count);
+    printf("The average percentage of the students is=%f\n", avg);
+    printf("The pass rate of the students is=%f%%\n", pass_rate);
 }
 
 int main()
